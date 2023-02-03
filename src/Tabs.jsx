@@ -30,7 +30,7 @@ export const Tabs = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="home">
+      <Tab.Navigator initialRouteName="signUp">
         <Tab.Screen
           name="signUp"
           component={SignUpStack}
