@@ -1,24 +1,45 @@
-import React, { useCallback, useMemo, useRef } from "react";
-import { Text } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { StyleSheet, View } from "react-native";
 import { RouteList } from "../components/RouteList";
+import { FAB } from "react-native-paper";
+import { StatusBar } from "react-native";
+import { Map } from "../components/Map";
+import { useBottomSheet } from "../hooks/useBottomSheet";
+import { useLocationPermission } from "../hooks/useLocationPermission";
+
+const initialRegion = {
+  latitude: 23.058955,
+  longitude: -109.694999,
+  latitudeDelta: 0.015,
+  longitudeDelta: 0.0121,
+};
 
 export const HomeScreen = () => {
-  const bottomSheetRef = useRef(null);
+  const [currentRoute, setCurrentRoute] = useState(null);
+  const { snapPoints, handleSheetChanges, bottomSheetRef } = useBottomSheet();
+  const [region, setCurrentRegion] = useState({ initialRegion });
+  const { location } = useLocationPermission();
 
-  // variables
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
+  const selectRoute = (route) => {
+    setCurrentRoute(route);
+    const coords = { ...route.points[0] };
+    setCurrentRegion(coords);
+  };
 
-  // callbacks
-  const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  const handleLocationButtonClick = () => {
+    setCurrentRegion({ ...location.coords });
+  };
 
-  // return null
   return (
     <View style={styles.container}>
+      <FAB
+        style={styles.fab}
+        small
+        icon="crosshairs"
+        onPress={handleLocationButtonClick}
+      />
+      <Map route={currentRoute} region={region} initialRegion={initialRegion} />
       <BottomSheet
         ref={bottomSheetRef}
         index={1}
@@ -26,7 +47,7 @@ export const HomeScreen = () => {
         onChange={handleSheetChanges}
       >
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
-          <RouteList />
+          <RouteList selectRoute={selectRoute} />
         </BottomSheetScrollView>
       </BottomSheet>
     </View>
@@ -40,6 +61,14 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     backgroundColor: "white",
-    paddingHorizontal:20
+    paddingHorizontal: 20,
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    top: StatusBar.currentHeight,
+    zIndex: 100,
+    borderRadius: 100,
   },
 });

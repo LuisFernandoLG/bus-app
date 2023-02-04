@@ -6,6 +6,7 @@ import { ReportsStack } from "./stacks/ReportsStack";
 import { SettingsStack } from "./stacks/SettingsStack";
 
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useLocationPermission } from "./hooks/useLocationPermission";
 
 const CustomIcon = ({ focused, component: Icon, name }) => {
   if (focused)
@@ -27,10 +28,11 @@ const CustomIcon = ({ focused, component: Icon, name }) => {
 
 export const Tabs = () => {
   const Tab = createBottomTabNavigator();
+  const {errorMsg} = useLocationPermission()
 
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="signUp">
+      <Tab.Navigator initialRouteName="homeStack">
         <Tab.Screen
           name="signUp"
           component={SignUpStack}
@@ -53,7 +55,7 @@ export const Tabs = () => {
         />
 
         <Tab.Screen
-          name="home"
+          name="homeStack"
           component={HomeStack}
           options={{
             headerShown: false,

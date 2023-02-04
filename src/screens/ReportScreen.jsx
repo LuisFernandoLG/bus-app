@@ -2,6 +2,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { Button, Text, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlexContainer } from "../components/FlexContainer";
@@ -17,6 +18,8 @@ export const ReportScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
+
       <Text variant="headlineSmall">Realiza tu reporte</Text>
       <Text variant="bodyMedium">
         A continuación, llena los datos correspondientes.
@@ -61,6 +64,7 @@ export const ReportScreen = () => {
           Reportar
         </Button>
       </FlexContainer>
+          </ScrollView>
     </SafeAreaView>
   );
 };
@@ -68,6 +72,7 @@ export const ReportScreen = () => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
+    paddingBottom:10,
     backgroundColor: "#fff",
     flex: 1,
   },
