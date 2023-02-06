@@ -12,7 +12,7 @@ export const ChooseLocationScreen = () => {
   const navigation = useNavigation();
 
   const goToHomeScreen = () => {
-    navigation.navigate("home");
+    navigation.navigate("homeStack");
   };
 
   return (
