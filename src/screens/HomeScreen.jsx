@@ -34,7 +34,7 @@ export const HomeScreen = () => {
   };
 
   const handleLocationButtonClick = () => {
-    setCurrentRegion({ ...location.coords });
+    if(location) setCurrentRegion({ ...location.coords });
   };
 
   const goToSearchPlaceScreen = () => navigation.navigate("searchPlace");
