@@ -26,6 +26,7 @@ export const Map = ({ route, initialRegion, region }) => {
       ref={mapRef}
       showsUserLocation={true}
       showsMyLocationButton={false}
+      showsCompass={false}
     >
       <PolyRoute route={route} />
       <FakeBus />

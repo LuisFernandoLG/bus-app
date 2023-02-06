@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatedRegion, Marker, MarkerAnimated } from "react-native-maps";
 import { useRealtimeFakeBus } from "../hooks/useRealtimeFakeBus";
+import BusIcon from "../../assets/images/bus.png";
+import { Platform } from "react-native";
 
 const initialCoordinate = {
   latitude: 23.058955,
@@ -16,10 +18,25 @@ export const FakeBus = () => {
 
   useEffect(() => {
     if (busLocation && markerRef) {
-      // setCoordinate(coordinate)
     }
   }, [busLocation]);
 
+  const animateTo = (ref)=>{
+    ref.animateMarkerToCoordinate({latitude: 23.058955,
+      longitude: -109.694998,
+      latitudeDelta: 0.015,
+      longitudeDelta: 0.0121,}, 2000)
+  }
+
   if (busLocation === null) return null;
-  return <Marker ref={markerRef} coordinate={busLocation} />;
+
+  if (Platform.OS === "android")
+    return (
+      <Marker.Animated
+        image={BusIcon}
+        ref={(ref) => animateTo(ref)}
+        coordinate={busLocation}
+      />
+    );
+  return <Marker image={BusIcon} coordinate={busLocation} />;
 };

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { StyleSheet, View } from "react-native";
 import { RouteList } from "../components/RouteList";
-import { FAB } from "react-native-paper";
+import { Button, FAB, Searchbar } from "react-native-paper";
 import { StatusBar } from "react-native";
 import { Map } from "../components/Map";
 import { useBottomSheet } from "../hooks/useBottomSheet";
 import { useLocationPermission } from "../hooks/useLocationPermission";
+import { FlexContainer } from "../components/FlexContainer";
+import { useNavigation } from "@react-navigation/native";
 
 const initialRegion = {
   latitude: 23.058955,
@@ -20,6 +22,7 @@ export const HomeScreen = () => {
   const { snapPoints, handleSheetChanges, bottomSheetRef } = useBottomSheet();
   const [region, setCurrentRegion] = useState({ initialRegion });
   const { location } = useLocationPermission();
+  const navigation = useNavigation()
 
   const selectRoute = (route) => {
     setCurrentRoute(route);
@@ -30,6 +33,8 @@ export const HomeScreen = () => {
   const handleLocationButtonClick = () => {
     setCurrentRegion({ ...location.coords });
   };
+
+  const goToSearchPlaceScreen = ()=> navigation.navigate("searchPlace")
 
   return (
     <View style={styles.container}>
@@ -45,8 +50,19 @@ export const HomeScreen = () => {
         index={1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
+        style={styles.bottomSheet}
       >
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
+          <FlexContainer flex_ai_c>
+            <Button
+              contentStyle={{ flexDirection: "row-reverse" }}
+              icon="magnify"
+              mode="outlined"
+              onPress={goToSearchPlaceScreen}
+            >
+              Buscar
+            </Button>
+          </FlexContainer>
           <RouteList selectRoute={selectRoute} />
         </BottomSheetScrollView>
       </BottomSheet>
@@ -70,5 +86,16 @@ const styles = StyleSheet.create({
     top: StatusBar.currentHeight,
     zIndex: 100,
     borderRadius: 100,
+  },
+  bottomSheet: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 });
