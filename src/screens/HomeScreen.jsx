@@ -9,6 +9,7 @@ import { useBottomSheet } from "../hooks/useBottomSheet";
 import { useLocationPermission } from "../hooks/useLocationPermission";
 import { FlexContainer } from "../components/FlexContainer";
 import { useNavigation } from "@react-navigation/native";
+import { RouteDetailsBottomSheet } from "../components/RouteDetailsBottomSheet";
 
 const initialRegion = {
   latitude: 23.058955,
@@ -22,19 +23,28 @@ export const HomeScreen = () => {
   const { snapPoints, handleSheetChanges, bottomSheetRef } = useBottomSheet();
   const [region, setCurrentRegion] = useState({ initialRegion });
   const { location } = useLocationPermission();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const [isOpen, setIsOpen] = useState(false);
 
   const selectRoute = (route) => {
     setCurrentRoute(route);
     const coords = { ...route.points[0] };
     setCurrentRegion(coords);
+    setIsOpen(true)
   };
 
   const handleLocationButtonClick = () => {
     setCurrentRegion({ ...location.coords });
   };
 
-  const goToSearchPlaceScreen = ()=> navigation.navigate("searchPlace")
+  const goToSearchPlaceScreen = () => navigation.navigate("searchPlace");
+
+  const goBack = ()=> {
+    setIsOpen(false)
+    setCurrentRoute(null)
+
+
+  }
 
   return (
     <View style={styles.container}>
@@ -45,27 +55,35 @@ export const HomeScreen = () => {
         onPress={handleLocationButtonClick}
       />
       <Map route={currentRoute} region={region} initialRegion={initialRegion} />
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        style={styles.bottomSheet}
-      >
-        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
-          <FlexContainer flex_ai_c>
-            <Button
-              contentStyle={{ flexDirection: "row-reverse" }}
-              icon="magnify"
-              mode="outlined"
-              onPress={goToSearchPlaceScreen}
+      {isOpen ? (
+        <RouteDetailsBottomSheet route={currentRoute} goBack={goBack}/>
+      ) : (
+        <>
+          <BottomSheet
+            ref={bottomSheetRef}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+            style={styles.bottomSheet}
+          >
+            <BottomSheetScrollView
+              contentContainerStyle={styles.contentContainer}
             >
-              Buscar
-            </Button>
-          </FlexContainer>
-          <RouteList selectRoute={selectRoute} />
-        </BottomSheetScrollView>
-      </BottomSheet>
+              <FlexContainer flex_ai_c>
+                <Button
+                  contentStyle={{ flexDirection: "row-reverse" }}
+                  icon="magnify"
+                  mode="outlined"
+                  onPress={goToSearchPlaceScreen}
+                >
+                  Buscar
+                </Button>
+              </FlexContainer>
+              <RouteList selectRoute={selectRoute} />
+            </BottomSheetScrollView>
+          </BottomSheet>
+        </>
+      )}
     </View>
   );
 };

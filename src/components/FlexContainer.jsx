@@ -24,6 +24,8 @@ export const FlexContainer = ({
   flexGrow,
   mgTop,
   mgBottom,
+  flexWrap,
+  bg,
   style = {},
   ...rest
 }) => {
@@ -38,6 +40,9 @@ export const FlexContainer = ({
     pdBottom && { paddingBottom: pdBottom },
     mgTop && { marginTop: mgTop },
     mgBottom && { marginBottom: pdBottom },
+    flexWrap && { flexWrap: flexWrap },
+    mgBottom && { marginBottom: pdBottom },
+    bg && { backgroundColor: bg },
     flex_jc_c && styles.flex_jc_c,
     flex_jc_fs && styles.flex_jc_fs,
     flex_jc_fe && styles.flex_jc_fe,
