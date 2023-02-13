@@ -1,17 +1,21 @@
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Picker } from "@react-native-picker/picker";
-
+import { CitySelect } from "../components/CitySelect";
+import { settingsContext } from "../context/SettingsContext";
 
 export const ChooseLocationScreen = () => {
-  const [city, selectCity] = useState("Cabo San Lucas B.C.S");
-
+  const [selectedCity, setSelectedCity] = useState();
+  const { setCity } = useContext(settingsContext);
+  
   const navigation = useNavigation();
 
+
   const goToHomeScreen = () => {
+    if (!selectedCity) return alert("Selecciona alguna ciudad");
+    setCity(selectedCity);
     navigation.navigate("homeStack");
   };
 
@@ -23,13 +27,8 @@ export const ChooseLocationScreen = () => {
       <Text style={styles.label} variant="labelLarge">
         Selecciona tu ciudad
       </Text>
-      <Picker
-        selectedValue={city}
-        onValueChange={(itemValue, itemIndex) => selectCity(itemValue)}
-      >
-        <Picker.Item label="Cabo San Lucas B.C.S" value="1" />
-        <Picker.Item label="San José del Cabo B.C.S" value="2" />
-      </Picker>
+      
+      <CitySelect selectCity={setSelectedCity} selectedCity={selectedCity}/>
 
       <Button
         onPress={goToHomeScreen}
@@ -43,7 +42,7 @@ export const ChooseLocationScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     paddingHorizontal: 20,
     marginTop: 20,
     backgroundColor: "#fff",
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
   phoneInput: {
     marginVertical: 15,
   },
-  label:{
-    marginTop:15
-  }
-})
+  label: {
+    marginTop: 15,
+  },
+});

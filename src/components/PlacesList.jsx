@@ -10,7 +10,7 @@ export const PlacesList = ({ places }) => {
         {places.map((item, i) => {
           return (
             <Chip style={{ margin: 3 }} mode="outlined" key={`${i}-place`}>
-              {item}
+              {item.place}
             </Chip>
           );
         })}

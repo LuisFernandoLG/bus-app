@@ -7,13 +7,17 @@ export const SettingsList = () => {
 
   const navigation = useNavigation();
 
+  const goToGeneralSettings = ()=>{ 
+    navigation.navigate("generalSettings")
+  }
+
   return (
     <FlexContainer mgTop={30}>
       <List.Item
         title="Configuración"
         left={(props) => <List.Icon {...props} icon="cog" />}
         right={(props) => <List.Icon {...props} icon="arrow-right" />}
-        onPress={()=> console.log("")}
+        onPress={goToGeneralSettings}
         />
 
       <List.Item

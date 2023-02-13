@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
+import { GeneralSettingsScreen } from "../screens/GeneralSettingsScreen";
 import { UserPanelScreen } from "../screens/UserPanelScreen";
 
 export const SettingsStack = () => {
@@ -18,6 +19,13 @@ export const SettingsStack = () => {
         component={EditProfileScreen}
         options={{ title: "Editar perfil" }}
       />
+      
+      <Stack.Screen
+        name="generalSettings"
+        component={GeneralSettingsScreen}
+        options={{ title: "Ajustes generales" }}
+      />
+
     </Stack.Navigator>
   );
 };

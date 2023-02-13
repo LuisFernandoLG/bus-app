@@ -8,7 +8,7 @@ export const SignUpStack = (props) => {
   const Stack = createNativeStackNavigator();
 
   return (
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="chooseLocation">
         <Stack.Screen
           name="welcome"
           component={WelcomeScreen}

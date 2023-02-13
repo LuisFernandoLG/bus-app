@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { StyleSheet, View } from "react-native";
 import { RouteList } from "../components/RouteList";
-import { Button, FAB, Searchbar } from "react-native-paper";
+import { Button, FAB, Searchbar, Text } from "react-native-paper";
 import { StatusBar } from "react-native";
 import { Map } from "../components/Map";
 import { useBottomSheet } from "../hooks/useBottomSheet";
@@ -10,6 +10,7 @@ import { useLocationPermission } from "../hooks/useLocationPermission";
 import { FlexContainer } from "../components/FlexContainer";
 import { useNavigation } from "@react-navigation/native";
 import { RouteDetailsBottomSheet } from "../components/RouteDetailsBottomSheet";
+import { settingsContext } from "../context/SettingsContext";
 
 const initialRegion = {
   latitude: 23.058955,
@@ -25,26 +26,25 @@ export const HomeScreen = () => {
   const { location } = useLocationPermission();
   const navigation = useNavigation();
   const [isOpen, setIsOpen] = useState(false);
+  const { city } = useContext(settingsContext);
 
   const selectRoute = (route) => {
     setCurrentRoute(route);
     const coords = { ...route.points[0] };
     setCurrentRegion(coords);
-    setIsOpen(true)
+    setIsOpen(true);
   };
 
   const handleLocationButtonClick = () => {
-    if(location) setCurrentRegion({ ...location.coords });
+    if (location) setCurrentRegion({ ...location.coords });
   };
 
   const goToSearchPlaceScreen = () => navigation.navigate("searchPlace");
 
-  const goBack = ()=> {
-    setIsOpen(false)
-    setCurrentRoute(null)
-
-
-  }
+  const goBack = () => {
+    setIsOpen(false);
+    setCurrentRoute(null);
+  };
 
   return (
     <View style={styles.container}>
@@ -56,7 +56,7 @@ export const HomeScreen = () => {
       />
       <Map route={currentRoute} region={region} initialRegion={initialRegion} />
       {isOpen ? (
-        <RouteDetailsBottomSheet route={currentRoute} goBack={goBack}/>
+        <RouteDetailsBottomSheet route={currentRoute} goBack={goBack} />
       ) : (
         <>
           <BottomSheet
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   bottomSheet: {
+    zIndex: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

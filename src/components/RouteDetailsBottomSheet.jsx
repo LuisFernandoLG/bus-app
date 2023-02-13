@@ -49,6 +49,8 @@ const styles = StyleSheet.create({
     height: 20,
   },
   bottomSheet: {
+    zIndex:10
+    ,
     paddingHorizontal:20,
     shadowColor: "#000",
     shadowOffset: {

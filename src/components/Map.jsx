@@ -29,7 +29,7 @@ export const Map = ({ route, initialRegion, region }) => {
       showsCompass={false}
     >
       <PolyRoute route={route} />
-      <FakeBus />
+      {/* <FakeBus /> */}
       {/* <FakeBus2/> */}
     </MapView>
   );
@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    width: "100%",
+    height: "75%",
     zIndex: -1,
   },
 });

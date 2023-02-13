@@ -11,6 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "jsEngine": "hermes",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -18,16 +19,31 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyCGqE1J_395mxx00GvmP_-u7L5tAsqOmOI"
+      },
+      "jsEngine": "jsc"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.luislopez.busapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCGqE1J_395mxx00GvmP_-u7L5tAsqOmOI"
+        }
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "75337be5-e667-4975-97de-4e704450a900"
+      }
     }
   }
 }

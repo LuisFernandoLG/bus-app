@@ -18,6 +18,8 @@ export const EditProfileScreen = () => {
   const handleClick = ()=>{
     navigation.navigate("panel")
   }
+  
+
 
   return (
     <SafeAreaView>
